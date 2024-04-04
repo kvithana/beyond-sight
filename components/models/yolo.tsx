@@ -1,6 +1,5 @@
 import { yoloClasses } from "@/data/yolo_classes";
 import { createModelCpu } from "@/utils";
-import { round } from "lodash";
 import ndarray from "ndarray";
 import ops from "ndarray-ops";
 import { Tensor } from "onnxruntime-web";
@@ -125,7 +124,7 @@ const Yolo = (props: any) => {
       height,
     ]);
 
-    (tensor.data as Float32Array).set(dataProcessedTensor.data);
+    tensor.data.set(dataProcessedTensor.data);
     return tensor;
   };
 
@@ -161,9 +160,9 @@ const Yolo = (props: any) => {
         x1,
         y1,
         cls_id,
-      ].map((x: any) => round(x));
+      ].map((x: any) => Math.round(x));
 
-      [score] = [score].map((x: any) => round(x * 100, 1));
+      [score] = [score].map((x: any) => (x * 100).toFixed(1));
       const label =
         yoloClasses[cls_id].toString()[0].toUpperCase() +
         yoloClasses[cls_id].toString().substring(1) +
