@@ -40,7 +40,9 @@ export async function GET(
   return new Response(reqDeepgram.body, {
     headers: {
       "Content-Type": "audio/mpeg",
-      "Cache-Control": "public, max-age=31536000",
+      "Cache-Control": "public, s-maxage=600",
+      "CDN-Cache-Control": "public, max-age=31536000 s-maxage=31536000",
+      "Vercel-CDN-Cache-Control": "public, max-age=31536000 s-maxage=31536000",
     },
   });
 }
