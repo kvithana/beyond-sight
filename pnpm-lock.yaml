@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@datastructures-js/priority-queue':
+    specifier: ^6.3.1
+    version: 6.3.1
+  howler:
+    specifier: ^2.2.4
+    version: 2.2.4
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -37,6 +43,9 @@ devDependencies:
   '@ducanh2912/next-pwa':
     specifier: ^10.2.5
     version: 10.2.5(next@14.1.4)(webpack@5.91.0)
+  '@types/howler':
+    specifier: ^2.2.11
+    version: 2.2.11
   '@types/lodash':
     specifier: ^4.17.0
     version: 4.17.0
@@ -1259,6 +1268,16 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
+  /@datastructures-js/heap@4.3.3:
+    resolution: {integrity: sha512-UcUu/DLh/aM4W3C8zZfwxxm6/6FIZUlm3mcAXuNOCa6Aj4iizNvNXQyb8DjZQH2jKSQbMRyNlngP6TPimuGjpQ==}
+    dev: false
+
+  /@datastructures-js/priority-queue@6.3.1:
+    resolution: {integrity: sha512-eoxkWql/j0VJ0UFMFTpnyJz4KbEEVQ6aZ/JuJUgenu0Im4tYKylAycNGsYCHGXiVNEd7OKGVwfx1Ac3oYkuu7A==}
+    dependencies:
+      '@datastructures-js/heap': 4.3.3
+    dev: false
+
   /@ducanh2912/next-pwa@10.2.5(next@14.1.4)(webpack@5.91.0):
     resolution: {integrity: sha512-DkF0IUNBjJ2eOQ/lxDuEtT7oIfLIcOE6HthM5ESkZBLq9P05O2PEhaIpOLARPF9RNXlvBBJxX0sJNUeVehMTIw==}
     peerDependencies:
@@ -1573,6 +1592,10 @@ packages:
     dependencies:
       '@types/minimatch': 5.1.2
       '@types/node': 20.12.4
+    dev: true
+
+  /@types/howler@2.2.11:
+    resolution: {integrity: sha512-7aBoUL6RbSIrqKnpEgfa1wSNUBK06mn08siP2QI0zYk7MXfEJAaORc4tohamQYqCqVESoDyRWSdQn2BOKWj2Qw==}
     dev: true
 
   /@types/json-schema@7.0.15:
@@ -2931,6 +2954,10 @@ packages:
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
     dev: true
+
+  /howler@2.2.4:
+    resolution: {integrity: sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w==}
+    dev: false
 
   /https-browserify@1.0.0:
     resolution: {integrity: sha512-J+FkSdyD+0mA0N+81tMotaRMfSL9SGi+xpD3T6YApKsc3bGSXJlfXri3VyFOeYkfLRQisDk1W+jIFFKBeUBbBg==}

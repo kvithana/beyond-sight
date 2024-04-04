@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@datastructures-js/priority-queue": "^6.3.1",
+    "howler": "^2.2.4",
     "lodash": "^4.17.21",
     "ndarray": "^1.0.19",
     "ndarray-ops": "^1.2.2",
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "@ducanh2912/next-pwa": "^10.2.5",
+    "@types/howler": "^2.2.11",
     "@types/lodash": "^4.17.0",
     "@types/ndarray": "^1.0.14",
     "@types/ndarray-ops": "^1.2.7",
