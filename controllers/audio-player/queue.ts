@@ -1,10 +1,12 @@
 import { ICompare, PriorityQueue } from "@datastructures-js/priority-queue";
+import { Howl } from "howler";
 
 export interface QueuedTrack {
-  uri: string;
+  howl: Howl;
+  key: string;
   expiry?: Date;
   priority: number;
-  label: string;
+  text: string;
 }
 
 const compare: ICompare<QueuedTrack> = (a: QueuedTrack, b: QueuedTrack) => {

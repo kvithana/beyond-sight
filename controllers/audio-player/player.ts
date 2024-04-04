@@ -74,46 +74,79 @@ export class AudioPlayer {
   }
 
   private play(track: QueuedTrack) {
-    const sound = new Howl({
+    track.howl.play();
+    this.nowPlaying = track.howl;
+  }
+
+  queueTrack(track: QueueTrackInput) {
+    const howl = new Howl({
       src: [track.uri],
       volume: 1,
       preload: true,
       onload: () => {
-        console.log("[AUDIO] loaded track", track.label);
+        console.log("[AUDIO] loaded track:", track.key);
       },
       onplay: () => {
-        console.log("[AUDIO] playing track", track.label);
+        console.log("[AUDIO] playing track:", track.key);
       },
       onend: () => {
-        console.log("[AUDIO] finished track", track.label);
+        console.log("[AUDIO] finished track:", track.key);
         this.history.add({
           uri: track.uri,
-          label: track.label,
+          key: track.key,
+          text: track.text,
           playedAt: new Date(),
-          duration: sound.duration() * 1000,
+          duration: howl.duration() * 1000,
         });
       },
       onplayerror: () => {
-        console.error("[AUDIO] error playing track", track.label);
-        this.nowPlaying = null;
+        console.error("[AUDIO] error playing track:", track.key);
+        this.localTTS(track);
       },
       onloaderror: () => {
-        console.error("[AUDIO] error loading track", track.label);
-        this.nowPlaying = null;
+        console.error("[AUDIO] error loading track:", track.key);
+        this.localTTS(track);
       },
     });
-    sound.play();
-    this.nowPlaying = sound;
+
+    this.queue.enqueue({
+      howl,
+      key: track.key,
+      text: track.text,
+      priority: track.priority,
+      expiry: track.expiry,
+    });
   }
 
-  queueTrack(track: QueuedTrack) {
-    this.queue.enqueue(track);
+  localTTS(track: QueueTrackInput) {
+    // check if speech synthesis is available
+    if (!speechSynthesis) {
+      console.error("[AUDIO] speech synthesis not available");
+      return;
+    }
+    const utterance = new SpeechSynthesisUtterance(track.text);
+    utterance.volume = track.volume;
+    speechSynthesis.speak(utterance);
+    console.log("[AUDIO] playing local TTS:", track.text);
+    setTimeout(() => {
+      this.nowPlaying = null;
+    }, 20 * track.text.length);
   }
 }
 
+export type QueueTrackInput = {
+  uri: string;
+  key: string;
+  text: string;
+  volume: number;
+  priority: number;
+  expiry?: Date;
+};
+
 export type PlayedTrack = {
   uri: string;
-  label: string;
+  key: string;
+  text: string;
   playedAt: Date;
   duration: number;
 };
