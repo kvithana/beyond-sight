@@ -1,4 +1,4 @@
-import { AudioPlayer } from "../audio-player";
+import { AudioGenerator } from "../audio-generator";
 
 export type RecognizedObject = {
   label: string;
@@ -10,7 +10,7 @@ export type RecognizedObject = {
 };
 
 export class DecisionEngine {
-  constructor(private readonly audio: AudioPlayer) {}
+  constructor(private readonly audio: AudioGenerator) {}
 
   start() {
     this.audio.start();
