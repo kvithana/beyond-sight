@@ -55,6 +55,7 @@ export class AudioPlayer {
         console.log("[AUDIO] fading out current track");
         this.nowPlaying.fade(1, 0, 500);
         this.play(track);
+        this.queue.dequeue();
         return;
       }
       // else don't play until track is done
@@ -63,14 +64,22 @@ export class AudioPlayer {
 
     // check budget
     const budget =
-      this.silenceBuffer - sum(this.history.get().map((t) => t.duration));
+      this.silenceBuffer -
+      sum(
+        this.history
+          .get()
+          .filter((t) => t.playedAt > new Date(Date.now() - 10e3))
+          .map((t) => t.duration)
+      );
 
     // if budget is less than 0, return
     if (budget < 0) {
+      console.log("[AUDIO] silence budget exceeded");
       return;
     }
 
     this.play(track);
+    this.queue.dequeue();
   }
 
   private play(track: QueuedTrack) {
@@ -98,14 +107,17 @@ export class AudioPlayer {
           playedAt: new Date(),
           duration: howl.duration() * 1000,
         });
+        this.nowPlaying = null;
       },
       onplayerror: () => {
         console.error("[AUDIO] error playing track:", track.key);
         this.localTTS(track);
+        this.nowPlaying = null;
       },
       onloaderror: () => {
         console.error("[AUDIO] error loading track:", track.key);
         this.localTTS(track);
+        this.nowPlaying = null;
       },
     });
 

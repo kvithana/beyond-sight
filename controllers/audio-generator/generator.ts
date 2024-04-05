@@ -23,7 +23,7 @@ export class AudioGenerator {
   }
 
   playText(input: PlayTextInput) {
-    const uri = new URL(`/tts/${btoa(input.text)}.mp3`);
+    const uri = new URL(`/tts/${btoa(input.text)}.mp3`, window.location.origin);
     this.player.queueTrack({
       uri: uri.href,
       key: input.key,

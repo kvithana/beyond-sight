@@ -1,25 +1,42 @@
+import { subSeconds } from "date-fns";
 import { AudioGenerator } from "../audio-generator";
-
-export type RecognizedObject = {
-  label: string;
-  confidence: number;
-  x0: number;
-  y0: number;
-  x1: number;
-  y1: number;
-};
+import { YoloManager } from "../yolo-manager";
+import { DecisionHistory } from "./history";
 
 export class DecisionEngine {
-  constructor(private readonly audio: AudioGenerator) {}
+  private history: DecisionHistory<{ label: string; location: string }> =
+    new DecisionHistory();
+
+  constructor(
+    private readonly audio: AudioGenerator,
+    private readonly yolo: YoloManager
+  ) {}
 
   start() {
     this.audio.start();
   }
 
-  private _start() {}
+  objectInference(seconds: number, useHistory = true) {
+    const report = this.yolo.report(
+      subSeconds(new Date(), seconds),
+      new Date()
+    );
+    for (const object of report.objects) {
+      if (
+        useHistory &&
+        this.history.get(`${object.label}-${object.location}`)
+      ) {
+        continue;
+      }
 
-  tick(objects: RecognizedObject[]) {
-    for (const object of objects) {
+      this.audio.playText({
+        priority: 2,
+        text: `${object.label} ${object.location}`,
+        key: `${object.label}-${object.location}`,
+        volume: 0.6,
+        expiry: new Date(),
+      });
+      this.history.add(`${object.label}-${object.location}`, object, 5000);
     }
   }
 }

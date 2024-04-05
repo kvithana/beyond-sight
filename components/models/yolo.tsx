@@ -1,3 +1,5 @@
+import { yoloManager } from "@/controllers/init";
+import { RecognizedObject } from "@/controllers/yolo-manager";
 import { yoloClasses } from "@/data/yolo_classes";
 import { createModelCpu } from "@/utils";
 import ndarray from "ndarray";
@@ -142,7 +144,11 @@ const Yolo = (props: any) => {
     const dx = ctx.canvas.width / modelResolution[0];
     const dy = ctx.canvas.height / modelResolution[1];
 
+    yoloManager.setCameraDimensions(ctx.canvas.width, ctx.canvas.height);
+
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    const objects: RecognizedObject[] = [];
+
     for (let i = 0; i < tensor.dims[0]; i++) {
       //@ts-ignore
       let [batch_id, x0, y0, x1, y1, cls_id, score] = tensor.data.slice(
@@ -181,7 +187,20 @@ const Yolo = (props: any) => {
       // fillrect with transparent color
       ctx.fillStyle = color.replace(")", ", 0.2)").replace("rgb", "rgba");
       ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
+
+      const confidence = parseFloat(score);
+      if (confidence > 0.6) {
+        objects.push({
+          x0,
+          y0,
+          x1,
+          y1,
+          confidence,
+          label: yoloClasses[cls_id],
+        });
+      }
     }
+    yoloManager.tick(objects);
   };
 
   return (
