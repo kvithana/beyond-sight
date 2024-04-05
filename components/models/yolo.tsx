@@ -82,6 +82,9 @@ const Yolo = (props: any) => {
   };
 
   const preprocess = (ctx: CanvasRenderingContext2D) => {
+    const base64Image = ctx.canvas.toDataURL("image/jpeg", 0.8);
+    sessionStorage.setItem("image", base64Image);
+
     const resizedCtx = resizeCanvasCtx(
       ctx,
       modelResolution[0],

@@ -1,5 +1,6 @@
 import { addSeconds, subSeconds } from "date-fns";
-import { AudioGenerator } from "../audio-generator";
+import { AudioGenerator, PlayerVolume } from "../audio-generator";
+import { GPTVisionGenerator } from "../gpt-vision-generator/generator";
 import { YoloManager } from "../yolo-manager";
 import { DecisionHistory } from "./history";
 
@@ -9,7 +10,8 @@ export class DecisionEngine {
 
   constructor(
     private readonly audio: AudioGenerator,
-    private readonly yolo: YoloManager
+    private readonly yolo: YoloManager,
+    private readonly vision: GPTVisionGenerator
   ) {}
 
   start() {
@@ -33,10 +35,24 @@ export class DecisionEngine {
         priority: 2,
         text: `${object.label} ${object.location}`,
         key: `${object.label}-${object.location}`,
-        volume: 0.6,
+        volume: PlayerVolume.low,
         expiry: addSeconds(new Date(), 5),
       });
       this.history.add(`${object.label}-${object.location}`, object, 5000);
     }
+  }
+
+  async visionInference() {
+    const data = await this.vision.generate();
+    if (!data) {
+      return;
+    }
+    this.audio.playText({
+      priority: 5,
+      text: data.message.content,
+      key: `gpt-vision-${Math.random()}`,
+      volume: PlayerVolume.high,
+      expiry: addSeconds(new Date(), 10),
+    });
   }
 }
