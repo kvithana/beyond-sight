@@ -24,10 +24,8 @@ export class DecisionEngine {
       new Date()
     );
     for (const object of report.objects) {
-      if (
-        useHistory &&
-        this.history.get(`${object.label}-${object.location}`)
-      ) {
+      const key = `${object.label}`;
+      if (useHistory && this.history.get(key)) {
         continue;
       }
 
@@ -44,15 +42,11 @@ export class DecisionEngine {
       this.audio.playText({
         priority: 2,
         text: text,
-        key: `${object.label}-${object.location}`,
+        key: key,
         volume: PlayerVolume.low,
         expiry: addSeconds(new Date(), 5),
       });
-      this.history.add(
-        `${object.label}-${object.location}`,
-        object,
-        delays[object.label] ?? 5000
-      );
+      this.history.add(key, object, delays[object.label] ?? 5000);
     }
   }
 
@@ -72,5 +66,5 @@ export class DecisionEngine {
 }
 
 const delays: { [key: string]: number } = {
-  Person: 10,
+  Person: 10e3,
 };

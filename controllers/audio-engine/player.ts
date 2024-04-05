@@ -2,7 +2,7 @@ import { PriorityQueue } from "@datastructures-js/priority-queue";
 import { Howl } from "howler";
 import { sum } from "ramda";
 import { History } from "./history";
-import { QueuedTrack } from "./queue";
+import { QueueTrackInput, QueuedTrack } from "./queue";
 
 export class AudioPlayer {
   /** Loop controller */
@@ -84,15 +84,16 @@ export class AudioPlayer {
   }
 
   private play(track: QueuedTrack) {
-    track.howl.play();
-    this.nowPlaying = track.howl;
+    const howl = this.createHowl(track.input);
+    howl.play();
+    this.nowPlaying = howl;
   }
 
-  queueTrack(track: QueueTrackInput) {
+  private createHowl(track: QueueTrackInput) {
     const howl = new Howl({
       src: [track.uri],
       volume: track.volume,
-      preload: true,
+      preload: false,
       html5: true,
       onload: () => {
         console.log("[AUDIO] loaded track:", track.key);
@@ -125,9 +126,12 @@ export class AudioPlayer {
         this.nowPlaying = null;
       },
     });
+    return howl;
+  }
 
+  queueTrack(track: QueueTrackInput) {
     this.queue.enqueue({
-      howl,
+      input: track,
       key: track.key,
       text: track.text,
       priority: track.priority,
@@ -150,15 +154,6 @@ export class AudioPlayer {
     }, 20 * track.text.length);
   }
 }
-
-export type QueueTrackInput = {
-  uri: string;
-  key: string;
-  text: string;
-  volume: number;
-  priority: number;
-  expiry?: Date;
-};
 
 export type PlayedTrack = {
   uri: string;

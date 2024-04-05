@@ -26,6 +26,11 @@ export class GPTVisionGenerator {
       return null;
     }
 
+    if (data.message.content.length < 10) {
+      console.error("Vision response too short", data);
+      return null;
+    }
+
     this.history.add(data.message.content);
 
     return data as {
