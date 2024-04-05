@@ -118,42 +118,8 @@ const WebcamComponent = (props: any) => {
     return <div>Loading...</div>;
   }
 
-  return (
-    <div className="flex flex-row flex-wrap  justify-evenly align-center w-full">
-      <div
-        id="webcam-container"
-        className="flex items-center justify-center webcam-container"
-      >
-        <Webcam
-          mirrored={facingMode === "user"}
-          audio={false}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          imageSmoothing={true}
-          videoConstraints={{
-            facingMode: facingMode,
-            // width: props.width,
-            // height: props.height,
-          }}
-          onLoadedMetadata={() => {
-            setWebcamCanvasOverlaySize();
-            originalSize.current = [
-              webcamRef.current!.video!.offsetWidth,
-              webcamRef.current!.video!.offsetHeight,
-            ] as number[];
-          }}
-          forceScreenshotSourceSize={true}
-        />
-        <canvas
-          id="cv1"
-          ref={videoCanvasRef}
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            backgroundColor: "rgba(0,0,0,0)",
-          }}
-        ></canvas>
-      </div>
+  const DevMenu = () => {
+    return (
       <div className="flex flex-col justify-center items-center">
         <div className="flex gap-1 flex-row flex-wrap justify-center items-center m-5">
           <div className="flex gap-1 justify-center items-center items-stretch">
@@ -177,10 +143,10 @@ const WebcamComponent = (props: any) => {
               }}
               //on hover, shift the button up
               className={`
-              p-2  border-dashed border-2 rounded-xl hover:translate-y-1 
-              ${liveDetection.current ? "bg-white text-black" : ""}
-              
-              `}
+          p-2  border-dashed border-2 rounded-xl hover:translate-y-1 
+          ${liveDetection.current ? "bg-white text-black" : ""}
+          
+          `}
             >
               Live Detection
             </button>
@@ -233,6 +199,49 @@ const WebcamComponent = (props: any) => {
             </div>
           </div>
         </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-row flex-wrap justify-evenly align-center w-screen h-screen overflow-hidden">
+      <div
+        id="webcam-container"
+        className="flex items-center justify-center webcam-container"
+      >
+        <Webcam
+          mirrored={facingMode === "user"}
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          className="w-screen h-screen object-cover"
+          imageSmoothing={true}
+          videoConstraints={{
+            facingMode: facingMode,
+            // width: props.width,
+            // height: props.height,
+          }}
+          onLoadedMetadata={() => {
+            setWebcamCanvasOverlaySize();
+            originalSize.current = [
+              webcamRef.current!.video!.offsetWidth,
+              webcamRef.current!.video!.offsetHeight,
+            ] as number[];
+          }}
+          forceScreenshotSourceSize={true}
+        />
+        <canvas
+          id="cv1"
+          ref={videoCanvasRef}
+          style={{
+            position: "absolute",
+            zIndex: 10,
+            backgroundColor: "rgba(0,0,0,0)",
+          }}
+        ></canvas>
+      </div>
+      <div className="absolute z-50">
+        <DevMenu />
       </div>
     </div>
   );
