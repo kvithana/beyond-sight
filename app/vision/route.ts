@@ -60,7 +60,10 @@ export async function POST(request: Request) {
       );
     }
 
-    if (completion.choices[0].message.content?.includes("NULL")) {
+    if (
+      completion.choices[0].message.content?.toLowerCase().includes("null") ||
+      completion.choices[0].message.content?.includes("context")
+    ) {
       return new Response(
         JSON.stringify({
           message: {
@@ -79,7 +82,7 @@ export async function POST(request: Request) {
 }
 
 const prompt = `\
-You are helping a visually impaired person understand the world around them and avoid any obstacles. \
+You are helping a visually impaired person understand the world around them and avoid any danger or obstacles. \
 Your response will be turned to speech so keep word count low (max 20 words). \
 You receive a scene from a camera feed. Return any relevant message to the user about this scene. \
 If no new changes observed, only return the specific keyword: "NULL"`;
