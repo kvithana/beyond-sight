@@ -3,6 +3,7 @@ import { Tensor } from "onnxruntime-web";
 import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { runModel as _runModel } from "../utils";
+import { ActionButton } from "./action-button";
 import { Logs } from "./logs";
 import { StartButton } from "./start-button";
 import { Subtitles } from "./subtitles";
@@ -280,6 +281,7 @@ const WebcamComponent = (props: any) => {
             }}
           />
         )}
+        {start && <ActionButton />}
       </div>
     </div>
   );

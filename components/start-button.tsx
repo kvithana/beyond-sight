@@ -3,7 +3,7 @@ export const StartButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       onClick={onClick}
-      className="bg-blue-500 hover:bg-blue-700 text-white text-6xl font-bold py-4 px-8 rounded-full font-mono"
+      className="bg-blue-500 hover:bg-blue-700 text-white text-6xl font-bold py-4 px-8 rounded-full font-mono z-50"
       style={{
         position: "fixed",
         top: "50%",
