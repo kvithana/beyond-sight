@@ -13,6 +13,7 @@ export const audioGenerator = new AudioGenerator(audioEngine);
 export const yoloManager = new YoloManager();
 
 const decisionEngine = new DecisionEngine(audioGenerator, yoloManager);
+
 decisionEngine.start();
 
 setInterval(() => {

@@ -189,7 +189,7 @@ const Yolo = (props: any) => {
       ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
 
       const confidence = parseFloat(score);
-      if (confidence > 0.6) {
+      if (confidence > 80) {
         objects.push({
           x0,
           y0,

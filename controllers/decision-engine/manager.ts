@@ -1,4 +1,4 @@
-import { subSeconds } from "date-fns";
+import { addSeconds, subSeconds } from "date-fns";
 import { AudioGenerator } from "../audio-generator";
 import { YoloManager } from "../yolo-manager";
 import { DecisionHistory } from "./history";
@@ -34,7 +34,7 @@ export class DecisionEngine {
         text: `${object.label} ${object.location}`,
         key: `${object.label}-${object.location}`,
         volume: 0.6,
-        expiry: new Date(),
+        expiry: addSeconds(new Date(), 5),
       });
       this.history.add(`${object.label}-${object.location}`, object, 5000);
     }

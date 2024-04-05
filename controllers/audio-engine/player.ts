@@ -26,6 +26,7 @@ export class AudioPlayer {
     this.loopController = setInterval(() => {
       this.tick();
     }, 10);
+    console.log("[AUDIO] audio player started");
   }
 
   /** Stop the audio player */
