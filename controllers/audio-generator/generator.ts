@@ -8,6 +8,7 @@ export enum PlayerVolume {
 
 export type PlayTextInput = {
   priority: number;
+  voice: "a" | "b";
   text: string;
   key: string;
   volume: PlayerVolume;
@@ -23,7 +24,10 @@ export class AudioGenerator {
   }
 
   playText(input: PlayTextInput) {
-    const uri = new URL(`/tts/${btoa(input.text)}.mp3`, window.location.origin);
+    const uri = new URL(
+      `/tts/${input.voice}/${btoa(input.text)}.mp3`,
+      window.location.origin
+    );
     this.player.queueTrack({
       uri: uri.href,
       key: input.key,

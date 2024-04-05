@@ -1,10 +1,6 @@
 import { yoloManager } from "@/controllers/init";
 import { RecognizedObject } from "@/controllers/yolo-manager";
-import {
-  highConfidenceClasses,
-  readableClass,
-  yoloClasses,
-} from "@/data/yolo_classes";
+import { highConfidenceClasses, yoloClasses } from "@/data/yolo_classes";
 import { createModelCpu } from "@/utils";
 import ndarray from "ndarray";
 import ops from "ndarray-ops";
@@ -211,7 +207,7 @@ const Yolo = (props: any) => {
           x1,
           y1,
           confidence,
-          label: readableClass[yoloClasses[cls_id]],
+          label: yoloClasses[cls_id],
         });
       }
     }

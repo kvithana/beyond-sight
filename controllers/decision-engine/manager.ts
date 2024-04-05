@@ -1,3 +1,4 @@
+import { plurals, readableClass } from "@/data/yolo_classes";
 import { addSeconds, subSeconds } from "date-fns";
 import { AudioGenerator, PlayerVolume } from "../audio-generator";
 import { GPTVisionGenerator } from "../gpt-vision-generator/generator";
@@ -32,21 +33,22 @@ export class DecisionEngine {
       let text: string = "";
 
       if (object.amount > 1) {
-        text = `many ${object.label}`;
+        text = `many ${plurals[object.label]}`;
       } else if (object.size === "small" || object.size === "medium") {
-        text = `${object.label} ${
+        text = `${readableClass[object.label]} ${
           object.location === "center" ? "front" : object.location
         }`;
       } else {
-        text = `${object.label}`;
+        text = `${readableClass[object.label]}`;
       }
 
       this.audio.playText({
         priority: 2,
         text: text,
         key: key,
+        voice: "b",
         volume: PlayerVolume.low,
-        expiry: addSeconds(new Date(), 5),
+        expiry: addSeconds(new Date(), 3),
       });
       this.history.add(key, object, delays[object.label] ?? 5000);
     }
@@ -60,9 +62,10 @@ export class DecisionEngine {
     this.audio.playText({
       priority: 5,
       text: data.message.content,
+      voice: "a",
       key: `gpt-vision-${Math.random()}`,
       volume: PlayerVolume.high,
-      expiry: addSeconds(new Date(), 10),
+      expiry: addSeconds(new Date(), 5),
     });
   }
 }

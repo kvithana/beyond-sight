@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@capacitor/motion':
+    specifier: ^5.0.7
+    version: 5.0.7(@capacitor/core@5.7.4)
   '@clerk/nextjs':
     specifier: ^4.29.11
     version: 4.29.11(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)
@@ -1273,6 +1276,20 @@ packages:
       '@babel/helper-string-parser': 7.24.1
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+
+  /@capacitor/core@5.7.4:
+    resolution: {integrity: sha512-iZBgvx3o4amzKv5ttA+QHB6i7cxK+/mYpCQd1tnSdipg6ZkvfBhg1HkzhEqHk+I7MNur+QwgYDZho9+ycHRwOw==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
+  /@capacitor/motion@5.0.7(@capacitor/core@5.7.4):
+    resolution: {integrity: sha512-DUfY76h5NoC6f9eNFD0IHSAcL81xOInh3TezLootVy/i7r1lUa/STtLkPbg1ADoQTtKGSIjYZ2d52BkC2h0wMQ==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.7.4
+    dev: false
 
   /@clerk/backend@0.38.5(react@18.2.0):
     resolution: {integrity: sha512-SYdJAQt4KXmdo7gcaC747cf6KYthSigosmBLqS6aeq4SinBbZmfmgEKL80/oInp//j2+kmZglSazyg6W2NJr/A==}
