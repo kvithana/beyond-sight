@@ -26,7 +26,8 @@ export async function GET(
       Authorization: `Token ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: data,
+    // replace complex grammar marks such as ;/ with commas
+    body: data.replace(/;|\/|\\|`/g, ","),
   };
 
   const reqDeepgram = await fetch(url, options);

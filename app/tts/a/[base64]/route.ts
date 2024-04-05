@@ -26,7 +26,7 @@ export async function GET(
       Authorization: `Token ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: data,
+    body: data.replace(/;|\/|\\|`/g, ","),
   };
 
   const reqDeepgram = await fetch(url, options);
