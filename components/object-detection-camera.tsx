@@ -214,7 +214,7 @@ const WebcamComponent = (props: any) => {
           audio={false}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          className="w-screen h-screen object-cover"
+          className="w-screen opacity-50 md:scale-150 scale-110"
           imageSmoothing={true}
           videoConstraints={{
             facingMode: facingMode,
