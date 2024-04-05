@@ -62,7 +62,15 @@ export async function POST(request: Request) {
 
     if (
       completion.choices[0].message.content?.toLowerCase().includes("null") ||
-      completion.choices[0].message.content?.includes("context")
+      completion.choices[0].message.content
+        ?.toLowerCase()
+        .includes("context") ||
+      completion.choices[0].message.content
+        ?.toLowerCase()
+        .includes("nothing new") ||
+      completion.choices[0].message.content
+        ?.toLowerCase()
+        .includes("no new information")
     ) {
       return new Response(
         JSON.stringify({
