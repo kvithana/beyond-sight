@@ -1,11 +1,10 @@
-/** @type {import('next').NextConfig} */
+// Import necessary modules and plugins
 import CopyPlugin from "copy-webpack-plugin";
-import {
-  PHASE_DEVELOPMENT_SERVER,
-  PHASE_PRODUCTION_BUILD,
-} from "next/constants.js";
+import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants.js";
 import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
+import createWithPWA from "@ducanh2912/next-pwa";
 
+// Define your next.js configuration
 const nextConfig = {
   reactStrictMode: true,
   webpack: (config, {}) => {
@@ -36,14 +35,24 @@ const nextConfig = {
   },
 };
 
+// Function to apply the PWA configuration based on the build phase
 const nextConfigFunction = async (phase) => {
   if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
-    const withPWA = (await import("@ducanh2912/next-pwa")).default({
+    const withPWA = createWithPWA({
       dest: "public",
+      cacheOnFrontEndNav: true,
+      aggressiveFrontEndNavCaching: true,
+      reloadOnOnline: true,
+      swcMinify: true,
+      disable: false,
+      workboxOptions: {
+        disableDevLogs: true,
+      },
     });
     return withPWA(nextConfig);
   }
   return nextConfig;
 };
 
+// Export the configuration function
 export default nextConfigFunction;

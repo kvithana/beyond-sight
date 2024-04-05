@@ -186,6 +186,8 @@ const Yolo = (props: any) => {
 
   return (
     <ObjectDetectionCamera
+      //can we also return values of x0x1 and y0y1 here
+
       width={props.width}
       height={props.height}
       preprocess={preprocess}
