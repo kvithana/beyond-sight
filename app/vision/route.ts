@@ -72,7 +72,7 @@ export async function POST(request: Request) {
     }
 
     return new Response(JSON.stringify(completion.choices[0]), { status: 200 });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     return new Response(err.message, { status: 500 });
   }
