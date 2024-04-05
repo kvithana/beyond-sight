@@ -1,9 +1,9 @@
-import { differenceInMilliseconds } from "date-fns";
+import { addMilliseconds, isPast } from "date-fns";
 
 export class DecisionHistory<T> {
   history: {
     [key: string]: {
-      ttl: number;
+      expiry: Date;
       item: T;
     };
   } = {};
@@ -14,20 +14,20 @@ export class DecisionHistory<T> {
 
   add(key: string, item: T, ttl: number) {
     this.history[key] = {
-      ttl,
+      expiry: addMilliseconds(new Date(), ttl),
       item,
     };
     this.addsSinceCleanup++;
+    this.cleanup();
+    console.log("[DECISION] history: added", key, item, ttl, this.history);
   }
 
   get(key: string) {
     const entry = this.history[key];
-    if (
-      !entry ||
-      differenceInMilliseconds(Date.now(), entry.ttl) < Date.now()
-    ) {
+    if (!entry || isPast(entry.expiry)) {
       return null;
     }
+    return entry;
   }
 
   cleanup() {
@@ -35,9 +35,8 @@ export class DecisionHistory<T> {
       return;
     }
     this.addsSinceCleanup = 0;
-    const now = Date.now();
     for (const key in this.history) {
-      if (differenceInMilliseconds(now, this.history[key].ttl) < now) {
+      if (isPast(this.history[key].expiry)) {
         delete this.history[key];
       }
     }

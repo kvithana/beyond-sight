@@ -23,9 +23,9 @@ const decisionEngine = new DecisionEngine(
 decisionEngine.start();
 
 setInterval(() => {
-  decisionEngine.objectInference(2);
-}, 2000);
+  decisionEngine.objectInference(1);
+}, 1e3);
 
 setInterval(() => {
   decisionEngine.visionInference();
-}, 30e3);
+}, 15e3);

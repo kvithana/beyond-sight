@@ -40,6 +40,10 @@ export class History<T> {
     return this;
   }
 
+  getArray() {
+    return this.history;
+  }
+
   private purgeExpired() {
     if (this.ttl === 0) return;
     const now = Date.now();

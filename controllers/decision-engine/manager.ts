@@ -31,14 +31,28 @@ export class DecisionEngine {
         continue;
       }
 
+      let text: string = "";
+
+      if (object.size === "small" || object.size === "medium") {
+        text = `${object.label} ${
+          object.location === "center" ? "front" : object.location
+        }`;
+      } else {
+        text = `${object.label}`;
+      }
+
       this.audio.playText({
         priority: 2,
-        text: `${object.label} ${object.location}`,
+        text: text,
         key: `${object.label}-${object.location}`,
         volume: PlayerVolume.low,
         expiry: addSeconds(new Date(), 5),
       });
-      this.history.add(`${object.label}-${object.location}`, object, 5000);
+      this.history.add(
+        `${object.label}-${object.location}`,
+        object,
+        delays[object.label] ?? 5000
+      );
     }
   }
 
@@ -56,3 +70,7 @@ export class DecisionEngine {
     });
   }
 }
+
+const delays: { [key: string]: number } = {
+  Person: 10,
+};
