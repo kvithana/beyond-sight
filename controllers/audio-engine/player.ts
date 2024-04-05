@@ -109,16 +109,19 @@ export class AudioPlayer {
           playedAt: new Date(),
           duration: howl.duration() * 1000,
         });
+        howl.unload();
         this.nowPlaying = null;
       },
       onplayerror: () => {
         console.error("[AUDIO] error playing track:", track.key);
         this.localTTS(track);
+        howl.unload();
         this.nowPlaying = null;
       },
       onloaderror: () => {
         console.error("[AUDIO] error loading track:", track.key);
         this.localTTS(track);
+        howl.unload();
         this.nowPlaying = null;
       },
     });
