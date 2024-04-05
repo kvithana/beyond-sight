@@ -89,6 +89,10 @@ export class YoloManager {
         continue;
       }
 
+      if (object.count < 3) {
+        continue;
+      }
+
       let size: "small" | "medium" | "large";
       if (
         (object.x1 - object.x0) * (object.y1 - object.y0) <

@@ -1,6 +1,6 @@
 import { yoloManager } from "@/controllers/init";
 import { RecognizedObject } from "@/controllers/yolo-manager";
-import { yoloClasses } from "@/data/yolo_classes";
+import { readableClass, yoloClasses } from "@/data/yolo_classes";
 import { createModelCpu } from "@/utils";
 import ndarray from "ndarray";
 import ops from "ndarray-ops";
@@ -169,6 +169,11 @@ const Yolo = (props: any) => {
       ].map((x: any) => Math.round(x));
 
       [score] = [score].map((x: any) => (x * 100).toFixed(1));
+
+      if (score < 70) {
+        continue;
+      }
+
       const label =
         yoloClasses[cls_id].toString()[0].toUpperCase() +
         yoloClasses[cls_id].toString().substring(1) +
@@ -196,7 +201,7 @@ const Yolo = (props: any) => {
           x1,
           y1,
           confidence,
-          label: yoloClasses[cls_id],
+          label: readableClass[yoloClasses[cls_id]],
         });
       }
     }
