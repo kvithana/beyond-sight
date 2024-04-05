@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { runModel as _runModel } from "../utils";
 import { Logs } from "./logs";
+import { Subtitles } from "./subtitles";
 
 const WebcamComponent = (props: any) => {
   const [inferenceTime, setInferenceTime] = useState<number>(0);
@@ -265,8 +266,10 @@ const WebcamComponent = (props: any) => {
           </button>
           <UserButton />
         </div>
+        <div className="mt-4" />
         {devToolsOpen && <DevMenu />}
         {logsOpen && <Logs />}
+        <Subtitles />
       </div>
     </div>
   );

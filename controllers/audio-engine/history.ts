@@ -44,6 +44,10 @@ export class History<T> {
     return this.history;
   }
 
+  getLatest() {
+    return this.history[this.history.length - 1];
+  }
+
   private purgeExpired() {
     if (this.ttl === 0) return;
     const now = Date.now();
