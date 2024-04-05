@@ -171,7 +171,7 @@ const Yolo = (props: any) => {
         cls_id,
       ].map((x: any) => Math.round(x));
 
-      [score] = [score].map((x: any) => (x * 100).toFixed(1));
+      [score] = [score].map((x: any) => (x * 100).toFixed(0));
 
       const threshold = highConfidenceClasses.includes(yoloClasses[cls_id])
         ? 70
@@ -186,17 +186,18 @@ const Yolo = (props: any) => {
         " " +
         score.toString() +
         "%";
-      const color = conf2color(score / 100);
+      // color should always be white, but we use opacity to show the confidence
+      const color = `rgba(255, 255, 255, ${(score / 100) * 0.5})`;
 
       ctx.strokeStyle = color;
       ctx.lineWidth = 3;
       ctx.strokeRect(x0, y0, x1 - x0, y1 - y0);
-      ctx.font = "20px Arial";
+      ctx.font = "12px Arial";
       ctx.fillStyle = color;
       ctx.fillText(label, x0, y0 - 5);
 
       // fillrect with transparent color
-      ctx.fillStyle = color.replace(")", ", 0.2)").replace("rgb", "rgba");
+      ctx.fillStyle = `rgba(255, 255, 255, 0.1)`;
       ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
 
       const confidence = parseFloat(score);

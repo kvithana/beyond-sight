@@ -1,11 +1,15 @@
 import { audioEngine } from "@/controllers/init";
+import { reverse } from "ramda";
 import { useEffect, useState } from "react";
 
 export function Logs() {
   const [logs, setLogs] = useState<string[]>([]);
 
   useEffect(() => {
-    const t = setInterval(() => setLogs(audioEngine.logs.getArray()), 1000);
+    const t = setInterval(
+      () => setLogs(reverse(audioEngine.logs.getArray()).slice(0, 20)),
+      500
+    );
     return () => clearInterval(t);
   }, [setLogs]);
 

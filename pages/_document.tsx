@@ -13,7 +13,7 @@ export default function Document() {
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-title" content="Beyond Sight" />
       </Head>
-      <body className="overscroll-none">
+      <body className="overscroll-none w-screen h-screen overflow-hidden margin-0">
         <Main />
         <NextScript />
       </body>

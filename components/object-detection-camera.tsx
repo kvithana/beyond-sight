@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/nextjs";
 import { Tensor } from "onnxruntime-web";
 import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
@@ -212,7 +213,7 @@ const WebcamComponent = (props: any) => {
   };
 
   return (
-    <div className="flex flex-row flex-wrap justify-evenly align-center w-screen h-screen overflow-hidden">
+    <div className="flex flex-row flex-wrap justify-evenly align-center w-screen h-screen">
       <div
         id="webcam-container"
         className="flex items-center justify-center webcam-container"
@@ -222,7 +223,7 @@ const WebcamComponent = (props: any) => {
           audio={false}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          className="w-screen opacity-50 md:scale-150 scale-110"
+          className="w-screen opacity-50"
           imageSmoothing={true}
           videoConstraints={{
             facingMode: facingMode,
@@ -249,7 +250,7 @@ const WebcamComponent = (props: any) => {
         ></canvas>
       </div>
       <div className="absolute z-50">
-        <div className="flex gap-4 font-mono w-full text-sm p-4">
+        <div className="flex font-mono text-sm p-4 w-screen justify-between">
           <button
             className="border border-white p-1"
             onClick={() => setDevToolsOpen(!devToolsOpen)}
@@ -262,6 +263,7 @@ const WebcamComponent = (props: any) => {
           >
             {logsOpen ? "Close" : "Logs"}
           </button>
+          <UserButton />
         </div>
         {devToolsOpen && <DevMenu />}
         {logsOpen && <Logs />}
