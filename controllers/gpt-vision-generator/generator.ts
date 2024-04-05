@@ -5,7 +5,8 @@ export class GPTVisionGenerator {
   constructor() {}
 
   async generate() {
-    if (!sessionStorage) return null;
+    if (typeof window !== "undefined" && !("sessionStorage" in window))
+      return null;
     const image = sessionStorage.getItem("image");
     if (!image) {
       console.error("No image found in session storage");
