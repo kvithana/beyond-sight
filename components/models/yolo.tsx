@@ -1,6 +1,10 @@
 import { yoloManager } from "@/controllers/init";
 import { RecognizedObject } from "@/controllers/yolo-manager";
-import { readableClass, yoloClasses } from "@/data/yolo_classes";
+import {
+  highConfidenceClasses,
+  readableClass,
+  yoloClasses,
+} from "@/data/yolo_classes";
 import { createModelCpu } from "@/utils";
 import ndarray from "ndarray";
 import ops from "ndarray-ops";
@@ -173,7 +177,10 @@ const Yolo = (props: any) => {
 
       [score] = [score].map((x: any) => (x * 100).toFixed(1));
 
-      if (score < 70) {
+      const threshold = highConfidenceClasses.includes(yoloClasses[cls_id])
+        ? 70
+        : 50;
+      if (threshold < 70) {
         continue;
       }
 
@@ -197,7 +204,7 @@ const Yolo = (props: any) => {
       ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
 
       const confidence = parseFloat(score);
-      if (confidence > 80) {
+      if (confidence > threshold) {
         objects.push({
           x0,
           y0,

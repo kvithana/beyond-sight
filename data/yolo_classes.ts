@@ -163,3 +163,5 @@ export const readableClass: { [key: string]: string } = {
   "hair drier": "Hair Drier",
   toothbrush: "Toothbrush",
 };
+
+export const highConfidenceClasses = ["person", "chair", "diningtable"];

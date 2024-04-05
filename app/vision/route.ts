@@ -25,7 +25,7 @@ export async function POST(request: Request) {
               {
                 role: "system",
                 content:
-                  "You have already given the following responses: " +
+                  "You have already provided the following responses: " +
                   history.join(", "),
               },
             ]
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
           content: [
             {
               type: "text",
-              text: "Is there anything new contextual about where I am or what I see?",
+              text: "Is there any new contextual information about where I am or what is infront of me?",
             },
             {
               type: "image_url",
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
 }
 
 const prompt = `\
-You are helping a visually impaired person understand the world around them. \
+You are helping a visually impaired person understand the world around them and avoid any obstacles. \
 Your response will be turned to speech so keep word count low (max 20 words). \
-You receive an image from a camera feed. Return any relevant message to the user about this image. \
-If no new changes observed, return just this specific string: "NULL"`;
+You receive a scene from a camera feed. Return any relevant message to the user about this scene. \
+If no new changes observed, only return the specific keyword: "NULL"`;

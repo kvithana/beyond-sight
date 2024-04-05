@@ -1,4 +1,5 @@
 import { differenceInSeconds } from "date-fns";
+import { count, uniqBy } from "ramda";
 export type RecognizedObject = {
   label: string;
   confidence: number;
@@ -17,6 +18,8 @@ export type Memory = {
     y0: number;
     x1: number;
     y1: number;
+    // how many appeared as a group
+    group: number;
   };
 };
 
@@ -29,6 +32,7 @@ type ReportObject = {
   size: "small" | "medium" | "large";
   location: "left" | "right" | "center";
   confidence: number;
+  amount: number;
 };
 
 export class YoloManager {
@@ -40,7 +44,9 @@ export class YoloManager {
   memory: Memory = {};
 
   tick(objects: RecognizedObject[]) {
-    for (const object of objects) {
+    const o = uniqBy((x) => x.label, objects);
+
+    for (const object of o) {
       if (this.memory[object.label]) {
         if (
           differenceInSeconds(new Date(), this.memory[object.label].lastSeen) >
@@ -61,6 +67,7 @@ export class YoloManager {
             x1: object.x1,
             y1: object.y1,
             count: this.memory[object.label].count + 1,
+            group: count((x) => x.label === object.label, objects),
           };
           continue;
         }
@@ -74,6 +81,7 @@ export class YoloManager {
         x1: object.x1,
         y1: object.y1,
         count: 1,
+        group: count((x) => x.label === object.label, objects),
       };
     }
   }
@@ -96,12 +104,12 @@ export class YoloManager {
       let size: "small" | "medium" | "large";
       if (
         (object.x1 - object.x0) * (object.y1 - object.y0) <
-        this.cameraWidth * this.cameraHeight * 0.01
+        this.cameraWidth * this.cameraHeight * 0.05
       ) {
         size = "small";
       } else if (
         (object.x1 - object.x0) * (object.y1 - object.y0) <
-        this.cameraWidth * this.cameraHeight * 0.1
+        this.cameraWidth * this.cameraHeight * 0.2
       ) {
         size = "medium";
       } else {
@@ -122,6 +130,7 @@ export class YoloManager {
         size,
         location,
         confidence: object.confidence,
+        amount: object.group,
       });
     }
 

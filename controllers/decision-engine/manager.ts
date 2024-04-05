@@ -31,7 +31,9 @@ export class DecisionEngine {
 
       let text: string = "";
 
-      if (object.size === "small" || object.size === "medium") {
+      if (object.amount > 1) {
+        text = `many ${object.label}`;
+      } else if (object.size === "small" || object.size === "medium") {
         text = `${object.label} ${
           object.location === "center" ? "front" : object.location
         }`;
