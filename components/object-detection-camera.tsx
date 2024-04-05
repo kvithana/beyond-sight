@@ -272,6 +272,11 @@ const WebcamComponent = (props: any) => {
             onClick={() => {
               runLiveDetection();
               setStart(!start);
+              new Howl({
+                src: ["/audio/start.mp3"],
+                volume: 1,
+                html5: true,
+              }).play();
             }}
           />
         )}

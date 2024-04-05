@@ -59,6 +59,13 @@ export class DecisionEngine {
     if (!data) {
       return;
     }
+
+    new Howl({
+      src: "/audio/ai-start.mp3",
+      volume: 1,
+      html5: true,
+    }).play();
+
     this.audio.playText({
       priority: 5,
       text: data.message.content,
@@ -71,5 +78,5 @@ export class DecisionEngine {
 }
 
 const delays: { [key: string]: number } = {
-  Person: 10e3,
+  person: 10e3,
 };
