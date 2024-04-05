@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { runModel as _runModel } from "../utils";
 import { Logs } from "./logs";
+import { StartButton } from "./start-button";
 import { Subtitles } from "./subtitles";
 
 const WebcamComponent = (props: any) => {
@@ -14,6 +15,7 @@ const WebcamComponent = (props: any) => {
   const liveDetection = useRef<boolean>(false);
   const [devToolsOpen, setDevToolsOpen] = useState<boolean>(false);
   const [logsOpen, setLogsOpen] = useState<boolean>(false);
+  const [start, setStart] = useState<boolean>(false);
 
   const [facingMode, setFacingMode] = useState<string>("environment");
   const originalSize = useRef<number[]>([0, 0]);
@@ -118,11 +120,6 @@ const WebcamComponent = (props: any) => {
     setSSR(document.hidden);
     document.addEventListener("visibilitychange", handleVisibilityChange);
   }, []);
-
-  useEffect(() => {
-    const t = setTimeout(() => runLiveDetection(), 3e3);
-    return () => clearTimeout(t);
-  }, [runLiveDetection]);
 
   if (SSR) {
     return <div>Loading...</div>;
@@ -270,6 +267,14 @@ const WebcamComponent = (props: any) => {
         {devToolsOpen && <DevMenu />}
         {logsOpen && <Logs />}
         <Subtitles />
+        {!start && (
+          <StartButton
+            onClick={() => {
+              runLiveDetection();
+              setStart(!start);
+            }}
+          />
+        )}
       </div>
     </div>
   );
