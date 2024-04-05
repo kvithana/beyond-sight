@@ -91,8 +91,9 @@ export class AudioPlayer {
   queueTrack(track: QueueTrackInput) {
     const howl = new Howl({
       src: [track.uri],
-      volume: 1,
+      volume: track.volume,
       preload: true,
+      html5: true,
       onload: () => {
         console.log("[AUDIO] loaded track:", track.key);
       },
