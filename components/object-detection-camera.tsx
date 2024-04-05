@@ -2,6 +2,7 @@ import { Tensor } from "onnxruntime-web";
 import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { runModel as _runModel } from "../utils";
+import { Logs } from "./logs";
 
 const WebcamComponent = (props: any) => {
   const [inferenceTime, setInferenceTime] = useState<number>(0);
@@ -9,6 +10,8 @@ const WebcamComponent = (props: any) => {
   const webcamRef = useRef<Webcam>(null);
   const videoCanvasRef = useRef<HTMLCanvasElement>(null);
   const liveDetection = useRef<boolean>(false);
+  const [devToolsOpen, setDevToolsOpen] = useState<boolean>(false);
+  const [logsOpen, setLogsOpen] = useState<boolean>(false);
 
   const [facingMode, setFacingMode] = useState<string>("environment");
   const originalSize = useRef<number[]>([0, 0]);
@@ -113,6 +116,11 @@ const WebcamComponent = (props: any) => {
     setSSR(document.hidden);
     document.addEventListener("visibilitychange", handleVisibilityChange);
   }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => runLiveDetection(), 3e3);
+    return () => clearTimeout(t);
+  }, [runLiveDetection]);
 
   if (SSR) {
     return <div>Loading...</div>;
@@ -241,7 +249,22 @@ const WebcamComponent = (props: any) => {
         ></canvas>
       </div>
       <div className="absolute z-50">
-        <DevMenu />
+        <div className="flex gap-4 font-mono w-full text-sm p-4">
+          <button
+            className="border border-white p-1"
+            onClick={() => setDevToolsOpen(!devToolsOpen)}
+          >
+            {devToolsOpen ? "Close" : "Dev"}
+          </button>
+          <button
+            className="border border-white p-1"
+            onClick={() => setLogsOpen(!logsOpen)}
+          >
+            {logsOpen ? "Close" : "Logs"}
+          </button>
+        </div>
+        {devToolsOpen && <DevMenu />}
+        {logsOpen && <Logs />}
       </div>
     </div>
   );

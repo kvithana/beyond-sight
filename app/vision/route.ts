@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (completion.choices[0].message.content === "NULL") {
+    if (completion.choices[0].message.content?.includes("NULL")) {
       return new Response(
         JSON.stringify({
           message: {

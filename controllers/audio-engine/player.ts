@@ -14,6 +14,8 @@ export class AudioPlayer {
   /** The track that is currently playing */
   private nowPlaying: Howl | null = null;
 
+  logs: History<string> = new History(100);
+
   constructor(
     /** The queue of tracks to play */
     private readonly queue: PriorityQueue<QueuedTrack>,
@@ -86,6 +88,7 @@ export class AudioPlayer {
   private play(track: QueuedTrack) {
     const howl = this.createHowl(track.input);
     howl.play();
+    this.logs.add(track.text);
     this.nowPlaying = howl;
   }
 
