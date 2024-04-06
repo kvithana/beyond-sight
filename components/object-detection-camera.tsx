@@ -1,12 +1,13 @@
 import { UserButton } from "@clerk/nextjs";
 import { Tensor } from "onnxruntime-web";
+import { Info } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { runModel as _runModel } from "../utils";
 import { ActionButton } from "./action-button";
-import { Logs } from "./logs";
 import { StartButton } from "./start-button";
 import { Subtitles } from "./subtitles";
+import { Tutorial } from "./tutorial";
 
 const WebcamComponent = (props: any) => {
   const [inferenceTime, setInferenceTime] = useState<number>(0);
@@ -17,9 +18,13 @@ const WebcamComponent = (props: any) => {
   const [devToolsOpen, setDevToolsOpen] = useState<boolean>(false);
   const [logsOpen, setLogsOpen] = useState<boolean>(false);
   const [start, setStart] = useState<boolean>(false);
-
+  const [tutorial, setTutorial] = useState<boolean>(true);
   const [facingMode, setFacingMode] = useState<string>("environment");
   const originalSize = useRef<number[]>([0, 0]);
+
+  useEffect(() => {
+    localStorage.getItem("tutorial") === "false" && setTutorial(false);
+  }, []);
 
   const capture = () => {
     const canvas = videoCanvasRef.current!;
@@ -250,23 +255,12 @@ const WebcamComponent = (props: any) => {
       </div>
       <div className="absolute z-50">
         <div className="flex font-mono text-sm p-4 w-screen justify-between">
-          <button
-            className="border border-white p-1"
-            onClick={() => setDevToolsOpen(!devToolsOpen)}
-          >
-            {devToolsOpen ? "Close" : "Dev"}
-          </button>
-          <button
-            className="border border-white p-1"
-            onClick={() => setLogsOpen(!logsOpen)}
-          >
-            {logsOpen ? "Close" : "Logs"}
+          <button onClick={() => setTutorial(true)}>
+            <Info className="h-9 w-9 text-white" />
           </button>
           <UserButton />
         </div>
         <div className="mt-4" />
-        {devToolsOpen && <DevMenu />}
-        {logsOpen && <Logs />}
         <Subtitles />
         {!start && (
           <StartButton
@@ -282,6 +276,14 @@ const WebcamComponent = (props: any) => {
           />
         )}
         {start && <ActionButton />}
+        {tutorial && (
+          <Tutorial
+            onClose={() => {
+              setTutorial(false);
+              localStorage.setItem("tutorial", "false");
+            }}
+          />
+        )}
       </div>
     </div>
   );
