@@ -13,6 +13,7 @@
     "@clerk/nextjs": "^4.29.11",
     "@datastructures-js/priority-queue": "^6.3.1",
     "@deepgram/sdk": "^3.2.0",
+    "@vercel/analytics": "^1.2.2",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.0.25",
     "howler": "^2.2.4",
