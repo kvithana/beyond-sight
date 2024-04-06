@@ -122,6 +122,7 @@ const WebcamComponent = (props: any) => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         liveDetection.current = false;
+        sessionStorage.removeItem("image");
         window.location.reload();
       }
       // set SSR to true to prevent webcam from loading when tab is not active
@@ -309,7 +310,7 @@ const WebcamComponent = (props: any) => {
                 key: "welcome",
                 priority: 2,
                 voice: "a",
-                text: "I am now analysing your environment.",
+                text: "I am now analysing your environment. You can swipe up to trigger me manually.",
                 volume: 1,
               });
             }}

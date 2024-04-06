@@ -25,6 +25,7 @@ export function ActionButton() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
         className="h-72 w-72 rounded-full border-2 border-opacity-20 border-white flex items-center justify-center"
       >
