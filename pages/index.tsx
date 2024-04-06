@@ -28,7 +28,8 @@ export default function Save() {
       />
       <h1 className="text-white text-4xl mt-4">Beyond Sight</h1>
       <p className="text-white text-lg mt-4 text-center">
-        An AI-powered lens into the world for the visually impaired.
+        Real-time audio descriptions for the visually impaired, fostering
+        independence and safety.
       </p>
 
       <div className="flex flex-col items-center justify-center">

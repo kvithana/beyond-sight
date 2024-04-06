@@ -10,14 +10,23 @@ import { StartButton } from "./start-button";
 import { Subtitles } from "./subtitles";
 import { Tutorial } from "./tutorial";
 
-const WebcamComponent = (props: any) => {
+const WebcamComponent = (props: {
+  preprocess: (ctx: CanvasRenderingContext2D) => Tensor;
+  postprocess: (
+    outputTensor: Tensor,
+    inferenceTime: number,
+    ctx: CanvasRenderingContext2D
+  ) => void;
+  session: any;
+  inferenceTime: number;
+  modelName: string;
+  changeModelResolution: () => void;
+}) => {
   const [inferenceTime, setInferenceTime] = useState<number>(0);
   const [totalTime, setTotalTime] = useState<number>(0);
   const webcamRef = useRef<Webcam>(null);
   const videoCanvasRef = useRef<HTMLCanvasElement>(null);
   const liveDetection = useRef<boolean>(false);
-  const [devToolsOpen, setDevToolsOpen] = useState<boolean>(false);
-  const [logsOpen, setLogsOpen] = useState<boolean>(false);
   const [showButton, setShowButton] = useState<boolean>(true);
   const [start, setStart] = useState<boolean>(false);
   const [tutorial, setTutorial] = useState<boolean>(true);

@@ -14,7 +14,7 @@ const RES_TO_MODEL: [number[], string][] = [
   [[640, 640], "yolov7-tiny_640x640.onnx"],
 ];
 
-const Yolo = (props: any) => {
+export function Yolo() {
   const [modelResolution, setModelResolution] = useState<number[]>(
     RES_TO_MODEL[0][0]
   );
@@ -217,16 +217,14 @@ const Yolo = (props: any) => {
 
   return (
     <ObjectDetectionCamera
-      width={props.width}
-      height={props.height}
       preprocess={preprocess}
       postprocess={postprocess}
-      resizeCanvasCtx={resizeCanvasCtx}
       session={session}
       changeModelResolution={changeModelResolution}
       modelName={modelName}
+      inferenceTime={0}
     />
   );
-};
+}
 
 export default Yolo;
