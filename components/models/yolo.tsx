@@ -182,10 +182,9 @@ export function Yolo() {
 
       const label =
         yoloClasses[cls_id].toString()[0].toUpperCase() +
-        yoloClasses[cls_id].toString().substring(1) +
-        " " +
-        score.toString() +
-        "%";
+        yoloClasses[cls_id].toString().substring(1);
+      // hide percentage as its not relevant to a regular user
+      // + " " + score.toString() + "%";
       // color should always be white, but we use opacity to show the confidence
       const color = `rgba(255, 255, 255, ${(score / 100) * 0.5})`;
 
