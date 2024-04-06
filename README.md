@@ -1,40 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Beyond Sight: An AI-powered vision aid
 
-## Getting Started
+Beyond Sight is a groundbreaking project designed to empower the visually impaired with an intuitive and intelligent understanding of their surroundings. By leveraging cutting-edge AI technologies such as object detection and advanced computer vision, we aim to provide real-time audio feedback that paints a vivid picture of the environment.
 
-First, run the development server:
+## Core Technologies
+
+- **Object detection with YOLOv7**: Accurately identifies and tracks objects in real-time, providing crucial information about obstacles and points of interest.
+- **Computer vision with GPT-4 Vision**: Delivers insightful and contextual descriptions of the scene, capturing details that go beyond simple object recognition.
+- **Audio generation with Deepgram**: Converts text into natural-sounding speech using advanced text-to-speech technology.
+
+## Local Development Setup
+
+**1. Clone the repository:**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/project-yolo.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**2. Install dependencies:**
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+**3. Set up environment variables:**
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Create a .env.local file in the root directory and add the following variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+OPENAI_API_KEY=your_openai_api_key
+DEEPGRAM_API_KEY=your_deepgram_api_key
+CLERK_API_KEY=your_clerk_api_key
+CLERK_FRONTEND_API=your_clerk_frontend_api
+```
 
-## Learn More
+**4. Run the development server:**
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**5. Access the application:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Open http://localhost:3000 in your browser.
 
-## Deploy on Vercel
+## Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**1. Sign in/Sign up:** Users need to authenticate with Clerk to access the application.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**2. Start the app:** Press the "Start" button to initiate object detection and scene description.
+
+**3. Audio feedback:** The app will announce detected objects and provide contextual descriptions of the scene.
+
+**4. Manual trigger:** Swipe up to manually request a scene description.
+
+**5. Mute irrelevant phrases:** Swipe down to mute audio feedback for specific phrases.
+
+## Features
+
+- **Real-time object detection**: Identifies and announces objects like people, furniture, vehicles, and potential hazards.
+- **Contextual scene descriptions**: Provides rich narratives about the surrounding environment, including details such as the layout, atmosphere, and activities taking place.
+- **Customizable audio feedback**: Users can adjust the volume, voice, and frequency of audio cues to personalize their experience.
+- **Intuitive interface**: Easy-to-use gestures allow for seamless interaction and control over the app's functionalities.
+
+## Benefits
+
+- **Enhanced independence and mobility**: Enables users to navigate their environment with greater confidence and safety.
+- **Improved situational awareness**: Provides a deeper understanding of the surroundings, fostering a sense of connection and engagement with the world.
+- **Greater accessibility**: Opens up new possibilities for visually impaired individuals to participate in activities and experiences they may have previously found challenging.
+
+## Future Development
+
+- **Integration with other sensors**: Incorporate data from additional sensors like LiDAR or depth cameras to create a more comprehensive understanding of the environment.
+- **Offline capabilities**: Enable users to access core features even without an internet connection.
+- **Multilingual support**: Expand language options for audio feedback to cater to a wider audience.
+- **Open-source development**: Foster community involvement and collaboration to further enhance the app's capabilities.
+
+We are excited about the possibilities that Beyond Sight holds and are committed to its continued development and improvement.
+
+Join us in building a future where everyone can see the world beyond sight.
