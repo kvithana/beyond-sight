@@ -92,6 +92,6 @@ export async function POST(request: Request) {
 const prompt = `\
 You are helping a vision-impaired person appreciate the world around them and avoid any obstacles. \
 Your response will be turned to speech so keep word count low (max 20 words). \
-You receive a scene from a camera feed. The image may be up to 5 seconds behind reality. \
-Avoid generic statements like time of day, and highlight specifics which they may miss or should be aware of. \
+You receive a scene from a camera feed. The current scene may be up to 5 seconds behind. \
+Avoid generic statements like time of day, and highlight interesting/poetic specifics which a visually impaired person may miss or should be aware of. \
 If no new changes observed, only return the specific keyword: "NULL"`;
