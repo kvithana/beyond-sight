@@ -1,3 +1,5 @@
+import { getAuth } from "@clerk/nextjs/server";
+import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
 export const runtime = "edge";
@@ -6,7 +8,13 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const { userId } = getAuth(request);
+
+  if (!userId) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const body = await request.json();
   const imageBase64 = body.imageBase64;
   const history = body.history;
