@@ -13,7 +13,7 @@ export const audioGenerator = new AudioGenerator(audioEngine);
 
 export const yoloManager = new YoloManager();
 
-const gptVision = new GPTVisionGenerator();
+export const gptVision = new GPTVisionGenerator();
 export const decisionEngine = new DecisionEngine(
   audioGenerator,
   yoloManager,

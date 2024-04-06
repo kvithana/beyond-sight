@@ -6,7 +6,11 @@ export class GPTVisionGenerator {
   generating: boolean = false;
   lastGenerated: Date = new Date();
 
-  constructor(private readonly cadence: number = 20) {}
+  constructor(private cadence: number = 20) {}
+
+  async setCadence(cadence: number) {
+    this.cadence = cadence;
+  }
 
   async generate(force: boolean) {
     console.log("FORCE", force);

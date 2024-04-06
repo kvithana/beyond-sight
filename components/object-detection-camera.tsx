@@ -1,7 +1,7 @@
-import { audioGenerator } from "@/controllers/init";
-import { UserButton } from "@clerk/nextjs";
+import { audioGenerator, gptVision } from "@/controllers/init";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { Tensor } from "onnxruntime-web";
-import { Info } from "phosphor-react";
+import { HandEye, HandPointing, Info } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { runModel as _runModel } from "../utils";
@@ -18,10 +18,12 @@ const WebcamComponent = (props: any) => {
   const liveDetection = useRef<boolean>(false);
   const [devToolsOpen, setDevToolsOpen] = useState<boolean>(false);
   const [logsOpen, setLogsOpen] = useState<boolean>(false);
+  const [showButton, setShowButton] = useState<boolean>(true);
   const [start, setStart] = useState<boolean>(false);
   const [tutorial, setTutorial] = useState<boolean>(true);
   const [facingMode, setFacingMode] = useState<string>("environment");
   const originalSize = useRef<number[]>([0, 0]);
+  const user = useUser();
 
   useEffect(() => {
     localStorage.getItem("tutorial") === "false" && setTutorial(false);
@@ -260,6 +262,18 @@ const WebcamComponent = (props: any) => {
           <button onClick={() => setTutorial(true)}>
             <Info className="h-9 w-9 text-white" />
           </button>
+          <button
+            onClick={() => {
+              gptVision.setCadence(!showButton ? 10 : 20);
+              setShowButton((val) => !val);
+            }}
+          >
+            {showButton ? (
+              <HandPointing className="h-9 w-9 text-white" />
+            ) : (
+              <HandEye className="h-9 w-9 text-white" />
+            )}
+          </button>
           <UserButton />
         </div>
         <div className="mt-4" />
@@ -276,11 +290,19 @@ const WebcamComponent = (props: any) => {
               }).play();
               // wait 2 seconds
               await new Promise((resolve) => setTimeout(resolve, 2000));
+              const name = user.user?.firstName;
               audioGenerator.playText({
                 key: "welcome",
                 priority: 2,
                 voice: "a",
-                text: "Welcome to Beyond Sight. If you cannot hear this message, please tap the screen.",
+                text: [
+                  ...[
+                    name
+                      ? `Welcome to Beyond Sight, ${name}.`
+                      : "Welcome to Beyond Sight.",
+                  ],
+                  "If you cannot hear this message, please tap the screen.",
+                ].join(" "),
                 volume: 1,
               });
               audioGenerator.playText({
@@ -293,7 +315,7 @@ const WebcamComponent = (props: any) => {
             }}
           />
         )}
-        {start && <ActionButton />}
+        {start && showButton && <ActionButton />}
         {tutorial && (
           <Tutorial
             onClose={() => {
