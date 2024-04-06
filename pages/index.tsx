@@ -2,7 +2,13 @@ import { useEffect } from "react";
 
 export default function Save() {
   useEffect(() => {
-    if (window.matchMedia("(display-mode: standalone)").matches) {
+    if (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      // @ts-ignore
+      window.navigator?.standalone ||
+      // @ts-ignore
+      window.clientInformation.standalone
+    ) {
       window.location.href = "/app";
     }
   }, []);
