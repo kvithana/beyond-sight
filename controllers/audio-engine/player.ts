@@ -16,6 +16,8 @@ export class AudioPlayer {
 
   logs: History<{ time: Date; text: string }> = new History(100);
 
+  private muted: History<PlayedTrack> = new History(100, 30e3);
+
   constructor(
     /** The queue of tracks to play */
     private readonly queue: PriorityQueue<QueuedTrack>,
@@ -86,6 +88,10 @@ export class AudioPlayer {
   }
 
   private play(track: QueuedTrack) {
+    if (this.muted.getArray().find((t) => t.key === track.input.key)) {
+      console.log("[AUDIO] track muted:", track.input.text);
+      return;
+    }
     const howl = this.createHowl(track.input);
     howl.play();
     this.logs.add({
@@ -158,6 +164,14 @@ export class AudioPlayer {
     setTimeout(() => {
       this.nowPlaying = null;
     }, 20 * track.text.length);
+  }
+
+  ignore() {
+    if (this.nowPlaying) {
+      this.nowPlaying.stop();
+      this.nowPlaying = null;
+    }
+    this.history.getLatest() ? this.muted.add(this.history.getLatest()) : null;
   }
 }
 

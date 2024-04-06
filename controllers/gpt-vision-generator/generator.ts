@@ -1,10 +1,26 @@
+import { differenceInSeconds } from "date-fns";
 import { History } from "../audio-engine/history";
 
 export class GPTVisionGenerator {
   history: History<string> = new History(5);
-  constructor() {}
+  generating: boolean = false;
+  lastGenerated: Date = new Date();
 
-  async generate() {
+  constructor(private readonly cadence: number = 20) {}
+
+  async generate(force: boolean) {
+    console.log("FORCE", force);
+    if (this.generating) {
+      console.log("Already generating");
+      return;
+    }
+    if (!force) {
+      if (differenceInSeconds(new Date(), this.lastGenerated) < this.cadence) {
+        console.log("Too soon to generate");
+        return;
+      }
+    }
+
     if (typeof window !== "undefined" && !("sessionStorage" in window))
       return null;
     const image = sessionStorage.getItem("image");
@@ -12,33 +28,39 @@ export class GPTVisionGenerator {
       console.error("No image found in session storage");
       return null;
     }
-    const data = await fetch("/vision", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        imageBase64: image,
-        history: this.history.getArray(),
-      }),
-    }).then((response) => response.json());
+    this.generating = true;
+    try {
+      const data = await fetch("/vision", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageBase64: image,
+          history: this.history.getArray(),
+        }),
+      }).then((response) => response.json());
 
-    if (!data) {
-      console.error("No data returned from vision endpoint");
-      return null;
-    }
+      if (!data) {
+        console.error("No data returned from vision endpoint");
+        return null;
+      }
 
-    if (data.message.content.length < 10) {
-      console.error("Vision response too short", data);
-      return null;
-    }
+      if (data.message.content.length < 10) {
+        console.error("Vision response too short", data);
+        return null;
+      }
 
-    this.history.add(data.message.content);
+      this.history.add(data.message.content);
 
-    return data as {
-      message: {
-        content: string;
+      return data as {
+        message: {
+          content: string;
+        };
       };
-    };
+    } finally {
+      this.generating = false;
+      this.lastGenerated = new Date();
+    }
   }
 }

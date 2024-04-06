@@ -1,16 +1,15 @@
+import { audioEngine, decisionEngine } from "@/controllers/init";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 
 export function ActionButton() {
-  const [draggedAt, setDraggedAt] = useState<Date | null>(null);
-
   const bind = useSwipeable({
     onSwipedUp: () => {
       console.log("swiped up");
       new Howl({
         src: ["/audio/query.mp3"],
       }).play();
+      decisionEngine.visionInference(true);
     },
     onSwipedDown: () => {
       console.log("swiped down");
@@ -20,6 +19,7 @@ export function ActionButton() {
       new Howl({
         src: ["/audio/success.mp3"],
       }).play();
+      audioEngine.ignore();
     },
     onSwipedRight: () => {
       console.log("swiped right");
@@ -29,6 +29,7 @@ export function ActionButton() {
     },
     onTap: () => {
       console.log("tapped");
+      audioEngine.ignore();
     },
   });
 

@@ -54,8 +54,9 @@ export class DecisionEngine {
     }
   }
 
-  async visionInference() {
-    const data = await this.vision.generate();
+  async visionInference(force: boolean) {
+    console.log("visionInference", force);
+    const data = await this.vision.generate(force);
     if (!data) {
       return;
     }

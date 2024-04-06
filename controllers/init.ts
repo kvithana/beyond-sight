@@ -14,7 +14,7 @@ export const audioGenerator = new AudioGenerator(audioEngine);
 export const yoloManager = new YoloManager();
 
 const gptVision = new GPTVisionGenerator();
-const decisionEngine = new DecisionEngine(
+export const decisionEngine = new DecisionEngine(
   audioGenerator,
   yoloManager,
   gptVision
@@ -27,5 +27,5 @@ setInterval(() => {
 }, 1e3);
 
 setInterval(() => {
-  decisionEngine.visionInference();
-}, 15e3);
+  decisionEngine.visionInference(false);
+}, 5e3);
