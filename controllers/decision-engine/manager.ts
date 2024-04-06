@@ -55,17 +55,10 @@ export class DecisionEngine {
   }
 
   async visionInference(force: boolean) {
-    console.log("visionInference", force);
     const data = await this.vision.generate(force);
     if (!data) {
       return;
     }
-
-    new Howl({
-      src: "/audio/ai-start.mp3",
-      volume: 1,
-      html5: true,
-    }).play();
 
     this.audio.playText({
       priority: 5,

@@ -7,28 +7,15 @@ export function ActionButton() {
     onSwipedUp: () => {
       console.log("swiped up");
       new Howl({
-        src: ["/audio/query.mp3"],
+        src: ["/audio/pause.mp3"],
       }).play();
       decisionEngine.visionInference(true);
     },
     onSwipedDown: () => {
-      console.log("swiped down");
-    },
-    onSwipedLeft: () => {
       console.log("swiped left");
       new Howl({
         src: ["/audio/success.mp3"],
       }).play();
-      audioEngine.ignore();
-    },
-    onSwipedRight: () => {
-      console.log("swiped right");
-      new Howl({
-        src: ["/audio/success.mp3"],
-      }).play();
-    },
-    onTap: () => {
-      console.log("tapped");
       audioEngine.ignore();
     },
   });
