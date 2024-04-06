@@ -22,8 +22,9 @@
     "onnxruntime-web": "^1.17.1",
     "openai": "^4.32.2",
     "ramda": "^0.29.1",
-    "react": "^18",
+    "react": "^18.2.0",
     "react-dom": "^18",
+    "react-swipeable": "^7.0.1",
     "react-webcam": "^7.2.0"
   },
   "devDependencies": {
