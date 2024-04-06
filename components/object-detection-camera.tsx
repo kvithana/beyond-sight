@@ -120,6 +120,7 @@ const WebcamComponent = (props: any) => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         liveDetection.current = false;
+        window.location.reload();
       }
       // set SSR to true to prevent webcam from loading when tab is not active
       setSSR(document.hidden);
