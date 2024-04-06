@@ -1,9 +1,37 @@
-import Yolo from "@/components/models/yolo";
-import "@/controllers/init";
-import { Inter } from "next/font/google";
+import { useEffect } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+export default function Save() {
+  useEffect(() => {
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      window.location.href = "/app";
+    }
+  }, []);
 
-export default function Home() {
-  return <Yolo />;
+  return (
+    <div className="h-screen w-screen flex items-center justify-center flex-col">
+      <img
+        src="/icon512_maskable.png"
+        className="h-32 w-32 rounded-lg border-white border-4"
+      />
+      <h1 className="text-white text-4xl mt-4">Beyond Sight</h1>
+      <p className="text-white text-lg mt-4 text-center">
+        An AI-powered lens into the world for the visually impaired.
+      </p>
+
+      <div className="flex flex-col items-center justify-center">
+        <div className="mt-4 text-sm text-center p-4">
+          We recommend saving this app to your home screen for the best
+          experience. Saved apps will launch Beyond Sight automatically.
+          Alternatively, you can use the app in your browser by clicking the
+          button below.
+        </div>
+        <a
+          href="/app"
+          className="bg-white text-black p-2 rounded-lg mt-4 font-mono"
+        >
+          Start seeing
+        </a>
+      </div>
+    </div>
+  );
 }

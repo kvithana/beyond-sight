@@ -20,5 +20,6 @@
   "dir": "auto",
   "lang": "en-US",
   "name": "Beyond Sight",
-  "short_name": "Sight"
+  "short_name": "Sight",
+  "start_url": "/app"
 }
