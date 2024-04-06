@@ -1,3 +1,4 @@
+import { audioGenerator } from "@/controllers/init";
 import { UserButton } from "@clerk/nextjs";
 import { Tensor } from "onnxruntime-web";
 import { Info } from "phosphor-react";
@@ -264,7 +265,7 @@ const WebcamComponent = (props: any) => {
         <Subtitles />
         {!start && (
           <StartButton
-            onClick={() => {
+            onClick={async () => {
               runLiveDetection();
               setStart(!start);
               new Howl({
@@ -272,6 +273,22 @@ const WebcamComponent = (props: any) => {
                 volume: 1,
                 html5: true,
               }).play();
+              // wait 2 seconds
+              await new Promise((resolve) => setTimeout(resolve, 2000));
+              audioGenerator.playText({
+                key: "welcome",
+                priority: 2,
+                voice: "a",
+                text: "Welcome to Beyond Sight. If you cannot hear this message, please tap the screen.",
+                volume: 1,
+              });
+              audioGenerator.playText({
+                key: "welcome",
+                priority: 2,
+                voice: "a",
+                text: "I am now analysing your environment.",
+                volume: 1,
+              });
             }}
           />
         )}
