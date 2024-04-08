@@ -12,9 +12,9 @@ export function ActionButton() {
       decisionEngine.visionInference(true);
     },
     onSwipedDown: () => {
-      console.log("swiped left");
+      console.log("swiped down");
       new Howl({
-        src: ["/audio/success.mp3"],
+        src: ["/audio/dismiss.mp3"],
       }).play();
       audioEngine.ignore();
     },
