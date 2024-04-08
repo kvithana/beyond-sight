@@ -311,15 +311,21 @@ const WebcamComponent = (props: {
                       ? `Welcome to Beyond Sight, ${name}.`
                       : "Welcome to Beyond Sight.",
                   ],
-                  "If you cannot hear this message, please tap the screen.",
                 ].join(" "),
                 volume: 1,
               });
               audioGenerator.playText({
-                key: "welcome",
-                priority: 2,
+                key: "welcome-2",
+                priority: 3,
                 voice: "a",
-                text: "I am now analysing your environment. You can swipe up to trigger me manually.",
+                text: "I am now connected to your device. You can now start exploring your surroundings.",
+                volume: 1,
+              });
+              audioGenerator.playText({
+                key: "welcome-3",
+                priority: 4,
+                voice: "a",
+                text: "You can also swipe up to analyse the scene at any time, or swipe down to dismiss the analysis.",
                 volume: 1,
               });
             }}
