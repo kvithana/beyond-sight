@@ -7,7 +7,7 @@ export function ActionButton() {
     onSwipedUp: () => {
       console.log("swiped up");
       new Howl({
-        src: ["/audio/pause.mp3"],
+        src: ["/audio/analyse.mp3"],
       }).play();
       decisionEngine.visionInference(true);
     },
