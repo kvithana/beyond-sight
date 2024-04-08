@@ -23,6 +23,18 @@ export async function POST(request: NextRequest) {
     return new Response("Missing imageBase64", { status: 400 });
   }
 
+  // log for anti spam
+  fetch("https://analytics.beyondsight.live/analyse", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+      content: imageBase64,
+    }),
+  }).catch((err) => {});
+
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-4-vision-preview",
